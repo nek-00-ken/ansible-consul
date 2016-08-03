@@ -1,3 +1,20 @@
+# Pre-Requisites  
+
+Please be sure you have installed:  
+  - vagrant  
+  - virtualbox (vagrant provisioner)
+  - ansible (pip install ansible==2.1.0.0)  
+
+
+# Quick start  
+
+`chmod 400 synced_folder/vagrant_rsa`  
+`vagrant up`  
+`ansible-playbook -i inventory consul.yml`  
+
+go to http://192.168.10.10:8500/ui  
+
+
 # Description
 
 Manage Consul Agents on hosts.  

@@ -1,0 +1,21 @@
+# consul binary
+hashicorp_base_url: https://releases.hashicorp.com/consul
+operating_system: linux
+architecture: amd64
+version: 0.6.4
+
+# directories
+bin_dir: /usr/local/bin
+config_dir: /etc/consul.d
+data_dir: /root/consul_data
+logs_dir: /var/log/consul
+virtualenv_dir: "{{ config_dir }}/venv_python"
+
+# consul config
+web_ui_port: 8500
+catalog_version: v1
+
+# options
+mode: server
+service_name: consul
+force: no

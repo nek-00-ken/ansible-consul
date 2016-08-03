@@ -1,0 +1,40 @@
+#-----------------------------------------------------------------------
+# Hosts (by group)
+#-----------------------------------------------------------------------
+
+[consul-servers]
+server-1   ansible_ssh_host=192.168.10.10
+
+[api]
+client-1  ansible_ssh_host=192.168.10.21   inventory_service_name=api
+
+[keystone]
+client-2  ansible_ssh_host=192.168.10.22   inventory_service_name=keystone
+
+[nova]
+client-3  ansible_ssh_host=192.168.10.23   inventory_service_name=nova
+
+[neutron]
+client-4  ansible_ssh_host=192.168.10.24   inventory_service_name=neutron
+
+[glance]
+client-5  ansible_ssh_host=192.168.10.25   inventory_service_name=glance
+
+#-----------------------------------------------------------------------
+# Groups
+#-----------------------------------------------------------------------
+
+[all:vars]
+ansible_ssh_user=vagrant
+ansible_ssh_private_key_file=synced_folder/vagrant_rsa
+
+[all:children]
+consul-servers
+consul-clients
+
+[consul-clients:children]
+api
+keystone
+nova
+neutron
+glance

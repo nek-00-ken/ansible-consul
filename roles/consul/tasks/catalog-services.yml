@@ -1,0 +1,34 @@
+---
+
+- name: check consul service is started
+  service:
+    name: consul
+    state: started
+  changed_when: False
+
+- name: check consul catalog is ready for PUT
+  wait_for:
+    port: "{{ web_ui_port }}"
+    delay: 2
+
+# consul service definition (default)
+- name: add consul default definition to catalog (kv)
+  uri:
+    url: "http://localhost:{{ web_ui_port }}/{{ catalog_version }}/kv/definitions/services/consul"
+    method: PUT
+    body: "{{ lookup('template', 'definitions/services/consul') | from_yaml | to_json }}"
+    body_format: json
+    status_code: 200
+
+# add your own service definitions
+- name: add specific definitions to catalog (kv)
+  uri:
+    url: "http://localhost:{{ web_ui_port }}/{{ catalog_version }}/kv/definitions/services/{{ item | basename }}"
+    method: PUT
+    body: "{{ lookup('template', '{{ item }}') | from_yaml | to_json }}"
+    body_format: json
+    status_code: 200
+  with_fileglob:
+    # point on folders (must contain yaml service definitions)
+    - templates/definitions/services/specific/openstack/*
+    - templates/definitions/services/specific/s3server/*

@@ -1,0 +1,14 @@
+---
+
+service:
+  name: s3
+  port: 8080
+  tags:
+    - s3
+    - object storage
+  checks:
+    - id: tcp_localhost_22
+      name: TCP on port 22
+      tcp: localhost:22
+      interval: 5s
+      timeout: 3s

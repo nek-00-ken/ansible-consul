@@ -1,0 +1,37 @@
+---
+
+- name: = UNINSTALL =
+  include: uninstall.yml
+  tags:
+    - uninstall
+
+- name: = APT =
+  include: apt.yml
+  tags:
+    - apt
+
+- name: = BINARY =
+  include: consul-binary.yml
+  tags:
+    - consul-binary
+
+- name: = SERVICE =
+  include: consul-service.yml
+  tags:
+    - consul-service
+
+- name: = CATALOG - Definitions of services =
+  include: catalog-services.yml
+  when: mode == 'server'
+  tags:
+    - catalog-services
+
+- name: = CONFIG =
+  include: consul-config.yml
+  tags:
+    - consul-config
+
+- name: = ROUTE DNS =
+  include: route-dns.yml
+  tags:
+    - route-dns

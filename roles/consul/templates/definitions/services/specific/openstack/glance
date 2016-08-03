@@ -1,0 +1,13 @@
+---
+
+service:
+  name: glance
+  port: 9292
+  tags:
+    - image
+  checks:
+    - id: tcp_localhost_22
+      name: TCP on port 22
+      tcp: localhost:22
+      interval: 5s
+      timeout: 3s

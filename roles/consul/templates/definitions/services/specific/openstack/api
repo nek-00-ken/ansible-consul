@@ -1,0 +1,13 @@
+---
+
+service:
+  name: api
+  port: 8080
+  tags:
+    - api
+  checks:
+    - id: tcp_localhost_22
+      name: TCP on port 22
+      tcp: localhost:22
+      interval: 5s
+      timeout: 3s

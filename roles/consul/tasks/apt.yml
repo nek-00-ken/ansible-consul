@@ -1,0 +1,11 @@
+---
+
+- name: install packages
+  apt:
+    update_cache: yes
+    name: "{{ item }}"
+  with_items:
+    - tar
+    - unzip
+    - python-setuptools
+    - python-virtualenv

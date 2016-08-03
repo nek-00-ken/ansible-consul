@@ -1,0 +1,23 @@
+---
+
+service:
+  name: keystone
+  port: 5000
+  tags:
+    - identity
+  checks:
+    - id: tcp_localhost_22
+      name: TCP on port 22
+      tcp: localhost:22
+      interval: 5s
+      timeout: 3s
+    - id: tcp_localhost_80
+      name: TCP on port 80
+      tcp: localhost:80
+      interval: 5s
+      timeout: 3s
+    - id: bash_check_disks
+      name: Disk utilization
+      script: df -PH
+      interval: 5s
+      timeout: 3s

@@ -1,0 +1,7 @@
+{
+    "watches": [{
+        "type": "key",
+        "key": "definitions/services/{{ service_name }}",
+        "handler": "{{ virtualenv_dir }}/bin/python {{ config_dir }}/scripts/synchronize.py -c {{ config_dir }}/scripts/synchronize.cfg"
+    }]
+}

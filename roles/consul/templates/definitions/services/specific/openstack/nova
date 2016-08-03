@@ -1,0 +1,18 @@
+---
+
+service:
+  name: nova
+  port: 8080
+  tags:
+    - compute
+  checks:
+    - id: tcp_localhost_22
+      interval: 5s
+      name: TCP on port 22
+      tcp: localhost:22
+      timeout: 3s
+    - id: tcp_to_keystone_80
+      interval: 5s
+      name: TCP on keystone port 80
+      tcp: keystone.service.consul:80
+      timeout: 3s

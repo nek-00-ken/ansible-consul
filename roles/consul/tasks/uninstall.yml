@@ -1,0 +1,21 @@
+---
+
+- name: stop consul service
+  service:
+    name: consul
+    state: stopped
+  changed_when: False
+  ignore_errors: yes
+  when: force
+
+- name: remove folders
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /etc/init.d/consul
+    - "{{ bin_dir }}/consul"
+    - "{{ config_dir }}"
+    - "{{ data_dir }}"
+    - "{{ logs_dir }}"
+  when: force

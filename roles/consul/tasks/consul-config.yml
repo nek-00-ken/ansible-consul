@@ -1,0 +1,44 @@
+---
+
+- name: create python virtualenv for sync script
+  pip:
+    name: pip
+    virtualenv: "{{ config_dir }}/venv_python"
+  notify:
+    - restart consul service
+
+- name: install pip dependencies
+  pip:
+    name: "{{ item }}"
+    virtualenv: "{{ config_dir }}/venv_python"
+  with_items:
+    - requests
+  notify:
+    - restart consul service
+
+- name: install sync script
+  template:
+    src: "config/scripts/{{ item }}"
+    dest: "{{ config_dir }}/scripts/{{ item }}"
+    mode: 0755
+  with_items:
+    - synchronize.py
+    - synchronize.cfg
+  notify:
+    - restart consul service
+
+- name: install watcher
+  template:
+    src: config/watch_service_definition.json.j2
+    dest: "{{ config_dir }}/watch_service_definition.json"
+  notify:
+    - restart consul service
+
+- name: remove existing service definition if exists
+  file:
+    name: "{{ config_dir }}/service_definition_{{ service_name }}.json"
+    state: absent
+  when: force
+  notify:
+    - restart consul service
+  changed_when: True

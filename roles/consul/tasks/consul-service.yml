@@ -1,0 +1,21 @@
+---
+
+- name: create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - "{{ config_dir }}/scripts"
+    - "{{ data_dir }}"
+    - "{{ logs_dir }}"
+  notify:
+  - restart consul service
+
+- name: create daemon
+  template:
+    src: "etc/init.d/consul.j2"
+    dest: "/etc/init.d/consul"
+    mode: 0755
+  notify:
+  - restart consul service

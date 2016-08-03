@@ -1,0 +1,19 @@
+---
+
+service:
+  name: consul
+  port: 8500
+  tags:
+    - service-catalog
+    - dns
+  checks:
+    - id: tcp_localhost_22
+      name: TCP on port 22
+      tcp: localhost:22
+      interval: 5s
+      timeout: 3s
+    - id: tcp_localhost_8500
+      name: TCP on port 8500 (Web UI)
+      tcp: localhost:8500
+      interval: 5s
+      timeout: 3s

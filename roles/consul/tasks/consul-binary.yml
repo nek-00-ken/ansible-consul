@@ -1,0 +1,23 @@
+---
+
+- name: check consul bin
+  stat:
+    path: "{{ bin_dir }}/consul"
+  register: installed
+
+- name: download from hashicorp
+  get_url:
+    url: "{{ hashicorp_base_url }}/{{ version }}/consul_{{ version }}_{{ operating_system }}_{{ architecture }}.zip"
+    dest: /tmp
+  when: installed.stat.exists == False or force
+  notify:
+    - restart consul service
+
+- name: install bin
+  unarchive:
+    src: "/tmp/consul_{{ version }}_{{ operating_system }}_{{ architecture }}.zip"
+    dest: "{{ bin_dir }}"
+    copy: no
+  when: installed.stat.exists == False or force
+  notify:
+    - restart consul service

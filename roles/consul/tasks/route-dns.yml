@@ -1,0 +1,34 @@
+---
+
+#--------------------------------
+# DNS Forwarding
+#--------------------------------
+# Default port : 53
+# Consul DNS port : 8600
+#--------------------------------
+
+- name: == MODE SERVER - rewrite ip table ==
+  shell: >
+    iptables -t nat -D PREROUTING -i eth1 -p udp --dport 53 -j REDIRECT --to-port 8600;
+    iptables -t nat -D PREROUTING -i eth1 -p tcp --dport 53 -j REDIRECT --to-port 8600;
+    iptables -t nat -A PREROUTING -i eth1 -p udp --dport 53 -j REDIRECT --to-port 8600;
+    iptables -t nat -A PREROUTING -i eth1 -p tcp --dport 53 -j REDIRECT --to-port 8600
+  when: mode == 'server' and force
+  changed_when: False
+
+- name: == MODE CLIENT - purge /etc/resolv.conf ==
+  lineinfile:
+    dest: /etc/resolv.conf
+    state: absent
+    regexp: '^.*$'
+  when: mode == 'client' and force
+
+- name: == MODE CLIENT - add dns nameserver in resolv.conf ==
+  lineinfile:
+    line: "{{ item }}"
+    dest: /etc/resolv.conf
+  with_items:
+    - "nameserver {{ hostvars[groups['consul-servers'][0]]['ansible_eth1']['ipv4']['address'] }}"
+    - "nameserver 8.8.8.8"
+    - "search service.consul"
+  when: mode == 'client' and force

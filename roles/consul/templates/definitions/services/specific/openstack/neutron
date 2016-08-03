@@ -1,0 +1,13 @@
+---
+
+service:
+  name: neutron
+  port: 9696
+  tags:
+    - network
+  checks:
+    - id: tcp_localhost_22
+      name: TCP on port 22
+      tcp: localhost:22
+      interval: 5s
+      timeout: 3s
