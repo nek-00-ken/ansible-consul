@@ -24,3 +24,52 @@
       service_name: "{{ inventory_service_name }}"
       mode: client
       # force: yes
+
+#---------------------------------------
+# Consul Clients
+#---------------------------------------
+
+- hosts: consul-clients
+  become: yes
+  roles:
+    - role: consul
+      service_name: "{{ inventory_service_name }}"
+      mode: client
+      # force: yes
+
+      #---------------------------------------
+      # Consul Clients
+      #---------------------------------------
+
+      - hosts: consul-clients
+        become: yes
+        roles:
+          - role: consul
+            service_name: "{{ inventory_service_name }}"
+            mode: client
+            # force: yes
+
+
+
+            #---------------------------------------
+            # Consul Clients
+            #---------------------------------------
+
+            - hosts: consul-clients
+              become: yes
+              roles:
+                - role: consul
+                  service_name: "{{ inventory_service_name }}"
+                  mode: client
+                  # force: yes
+                  #---------------------------------------
+                  # Consul Clients
+                  #---------------------------------------
+
+                  - hosts: consul-clients
+                    become: yes
+                    roles:
+                      - role: consul
+                        service_name: "{{ inventory_service_name }}"
+                        mode: client
+                        # force: yes
